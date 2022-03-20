@@ -1,0 +1,13 @@
+1. Create the following trigger on trainer object.
+trigger age on Trainer__c (before insert,before update) 
+{
+    for(Trainer__c tr :trigger.new)
+    {
+         date dob = tr.Date_of_Birth__c;
+        Integer age = Integer.valueOf(dob.daysBetween(Date.Today()))/365;
+        if(age<25){
+            tr.Date_of_Birth__c.adderror('Age should be more than 25');
+        }
+    }
+
+}
