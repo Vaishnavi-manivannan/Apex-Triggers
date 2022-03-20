@@ -1,0 +1,23 @@
+1. Create the following trigger on meeting object.
+trigger Datecheck on Meeting__c (before insert) 
+{
+    for(Meeting__c mt :trigger.new)
+    {
+        if(mt.Valid_From__c<Date.today() ) 
+        {
+            mt.Valid_From__c.adderror('Valid From Date Should Be Greater Than Today');
+        }
+        if(mt.Valid_To__c < mt.Valid_From__c)
+        {
+            mt.Valid_To__c.adderror('Valid To Date shouldbe greater than valid from date');
+        }
+        
+      Integer noOfDays = (mt.Valid_From__c). daysBetween(mt.Valid_To__c);
+        if(noOfDays < 14)
+        {
+            mt.Valid_From__c.adderror('Minimum 14 days difference  should be present between one meeting');
+        }
+    }
+
+
+}
