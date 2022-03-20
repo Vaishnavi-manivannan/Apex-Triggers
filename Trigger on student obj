@@ -1,0 +1,15 @@
+1.Create the following trigger  on student object.
+trigger ageCheck on Students__c (before insert) 
+{
+    
+    for(Students__c std :trigger.new)
+    {
+         date dob = std.Date_of_Birth__c;
+        Integer age = Integer.valueOf(dob.daysBetween(Date.Today()))/365;
+        if(age<25){
+           std.Date_of_Birth__c.adderror('Age should be more than 16');
+        }
+    }
+
+
+}
